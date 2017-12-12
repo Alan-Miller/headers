@@ -9,23 +9,23 @@
 
 ## Headers
 Below are some common HTTP headers. For more on these and other headers, see [the docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers).
-- `Access-Control-Allow-Origin`: Whether the response can be shared with resources with a given origin.
+- **Access-Control-Allow-Origin**: Whether the response can be shared with resources with a given origin.
     - `*`: all origins
     - `'http://example.com:3000'`: specific origin
-- `Access-Control-Allow-Headers`: Used in preflight requests. Indicates which headers will be available through `Access-Control-Expose-Headers`.
-- `Access-Control-Expose-Headers`: Indicates which headers can be exposed as part of the response.
-- `Access-Control-Allow-Methods`: HTTP methods allowed. 'GET' and 'POST' requests can skip `Access-Control-Allow-Methods` and are not prevented.
-- `Content-Security-Policy`: Scripts in the HTML body, will be ignored except those coming from origins specified by Content-Security-Policy.
+- **Access-Control-Allow-Headers**: Used in preflight requests. Indicates which headers will be available through `Access-Control-Expose-Headers`.
+- **Access-Control-Expose-Headers**: Indicates which headers can be exposed as part of the response.
+- **Access-Control-Allow-Methods**: HTTP methods allowed. 'GET' and 'POST' requests can skip `Access-Control-Allow-Methods` and are not prevented.
+- **Content-Security-Policy**: Scripts in the HTML body, will be ignored except those coming from origins specified by Content-Security-Policy.
     - `default-src`: fallback for fetch directives
     - `'self'`: scripts from own origin
     - `unsafe-eval`
     - `unsafe-inline`
-- `Content-Type`: Tells the server what the content type of the returned content is.
-- `X-Frame-Options`: Indicates whether a browser may render in a \<frame>, \<iframe>, or \<object>.
+- **Content-Type**: Tells the server what the content type of the returned content is.
+- **X-Frame-Options**: Indicates whether a browser may render in a \<frame>, \<iframe>, or \<object>.
     - `DENY`
     - `SAMEORIGIN`
     - `ALLOW-FROM https://example.com/`
-- `X-XSS-Protection`: Stops pages from loading when detecting reflected cross-site scripting attacks. When `Content-Security-Policy` disables unsafe inline JavaScript, these protections are often unnecessary in modern browsers, but might still help with older browsers that don't support CSP.
+- **X-XSS-Protection**: Stops pages from loading when detecting reflected cross-site scripting attacks. When `Content-Security-Policy` disables unsafe inline JavaScript, these protections are often unnecessary in modern browsers, but might still help with older browsers that don't support CSP.
 
 curl
 
