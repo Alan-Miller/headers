@@ -27,6 +27,22 @@ Below are some common HTTP headers. For more on these and other headers, see [th
     - `ALLOW-FROM https://example.com/`
 - **X-XSS-Protection**: Stops pages from loading when detecting reflected cross-site scripting attacks. When `Content-Security-Policy` disables unsafe inline JavaScript, these protections are often unnecessary in modern browsers, but might still help with older browsers that don't support CSP.
 
+```js
+app.use((req, res, next) => {
+  res.set({
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': 'http://localhost:3000',
+    'Access-Control-Allow-Methods': 'OPTIONS, GET, POST',
+    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+    'Access-Control-Allow-Credentials': true,
+    'X-XSS-Protection': '1; mode=block',
+    'X-Frame-Options': 'SAMEORIGIN',
+    'Content-Security-Policy': "default-src 'self'"
+  })
+  next();
+});
+```
+
 curl
 
 CORS loosens up headers to allow across origins. It allows the Same Origin Policy to be relaxed for a domain. Like example.org and example.com.
