@@ -24,7 +24,8 @@ A request is made of the following parts:
 ### Format a request
 <details> <summary> curl </summary>
 
-NOTE: `GET` is the default, so you can omit the `-X GET` and just write `curl URL`.
+- `GET` is the default, so you can omit the `-X GET` and just write `curl URL`.
+- The `-d` option introduces data (the message body).
 
 ```sh
 # GET
@@ -91,7 +92,7 @@ xhrDELETE.send(null);
 
 <details> <summary> fetch </summary>
     
-NOTE: `GET` is the default, so you can omit the method and just write `fetch(url)`.
+- `GET` is the default, so you can omit the method and just write `fetch(url)`.
 ```js
 fetch.get('http://example.com/api')
     .then(response => response.json()) // parse into JSON
