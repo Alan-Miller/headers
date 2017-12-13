@@ -61,11 +61,13 @@ A request is made of the following parts:
         });
     ```
 
-## [requestb.in](https://requestb.in/)
+### <span>requestb.in</span>
+[requestb.in](https://requestb.in/) acts as back end, so you can practice making requests to see what headers were sent by your request.
 
-Acts as back end.
-
-Create a RequestBin (can check Private).
+1. Go to [requestb.in](https://requestb.in/).
+1. Click `Create a RequestBin` (check `Private` if desired).
+1. Copy the URL using the round green button (or by copying it from the URL bar, making sure to omit the `?inspect` query at the end).
+1. The copied URL is the URL to which you will make requests using any of the normal methods for requests. [requestb.in](https://requestb.in/) will track the request data for the last 20 requests, which you can see by refreshing the web site.
 
 --- 
 
