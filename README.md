@@ -1,13 +1,71 @@
-## Glossary
-- Head: Basically a get request without any message body (response data).
-- Options: A request for information about the communication options available.
-- Origin: a tuple (ordered set) including 3 things:
-    1. protocol/scheme
-    1. host
-    1. port
+# CORS (Cross Origin Resources Sharing)
+Resources are shared on the web when clients make requests to a server and the server responds. Both requests and responses send headers, which carry information about the browser, the requested page, the server, etc. The request headers give details about the request being made, and response headers give details about the response coming back. Response headers can be written to specify the type and format of requests that are allowed.
+
+An origin is a tuple (ordered set) of 3 things: (1) protocol/scheme, (2) host, and (3) port. In `https://www.example.com:80`, for example `https` is the protocol, `www.example.com` is the host, and `80` is the port. Together, they are the origin. When any one of these parts differs between the client and the server, like `http://localhost:3000` and `http://localhost:3001`, the two are said to have different origins.
+
+By default, there are restrictions about what can be shared through requests and responses across different origins on the web. This is where CORS comes in. CORS provides loosened headers that allow resources to be shared from one origin to another.
+
+NOTE ABOUT PROXIES: A proxy can act as an alternative to using CORS. For example, if you are not able to edit the server to include CORS, a proxy can return the `Access-Control-Allow-Origin` header. Instead of making requests to a remote server, you'll make requests to your proxy, which will forward the requests to the server.
+
+---
+
+## Requests
+A request is made of the following parts:
+- Head
+    - Start-line (method, target URL, and version) (e.g., `POST / HTTP/1.1`)
+    - Headers (case-insensitive string followed by a value)
+- Body (optional)
+    - Data 
+
+### Request methods
+- GET: Request to retrieve content.
+- POST: Request to add new content. Typically includes a message body in the request.
+- PUT: Request to edit content.
+- DELETE: Request to delete content.
+- HEAD: Request for Head. Basically a `GET` request without any response message body.
+- OPTIONS: A request for information about the communication options available.
+
+### Format a request
+- XMLHttpRequest
+    ```js
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://example.com/api');
+    xhr.onload = () => {
+        const response = JSON.parse(xhr.response); 
+        // xhr.response has response which can be parsed into JSON
+        // write logic here for when response comes back
+    };
+    xhr.send();
+    ```
+- fetch
+    ```js
+    fetch.get('http://example.com/api')
+        .then(response => response.json()) // parse into JSON
+        .then(response => {
+            // write logic for when response comes back
+        });
+    ```
+- axios
+    ```js
+    axios.get('http://example.com/api')
+        .then(response => response.json()) // parse into JSON
+        .then(response => {
+        // write logic for when response comes back
+        });
+    ```
+
+## [requestb.in](requestb.in)
+
+Acts as back end.
+
+Create a RequestBin (can check Private).
+
+--- 
+
+## Responses
 
 
-## Headers
+### Headers
 Below are some common HTTP headers. For more on these and other headers, see [the docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers).
 - **Access-Control-Allow-Origin**: Whether the response can be shared with resources with a given origin.
     - `*`: all origins
@@ -52,13 +110,8 @@ CORS loosens up headers to allow across origins. It allows the Same Origin Polic
 
 
 
-See request headers
 
-## [requestb.in](requestb.in)
 
-Acts as back end.
-
-Create a RequestBin (can check Private).
 
 ## Chrome Network tab
 
