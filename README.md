@@ -26,7 +26,13 @@ A request is made of the following parts:
 - OPTIONS: A request for information about the communication options available.
 
 ### Format a request
-- XMLHttpRequest
+- **curl**
+
+    ```sh
+    curl -X GET https://requestb.in/1d27kk31
+    ```
+    NOTE: `GET` is the default, so you can omit the `-X GET` and just write `curl URL`.
+- **XMLHttpRequest**
     ```js
     const xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://example.com/api');
@@ -37,7 +43,7 @@ A request is made of the following parts:
     };
     xhr.send();
     ```
-- fetch
+- **fetch**
     ```js
     fetch.get('http://example.com/api')
         .then(response => response.json()) // parse into JSON
@@ -45,7 +51,8 @@ A request is made of the following parts:
             // write logic for when response comes back
         });
     ```
-- axios
+    NOTE: `GET` is the default, so you can omit the method and just write `fetch(url)`.
+- **axios**
     ```js
     axios.get('http://example.com/api')
         .then(response => response.json()) // parse into JSON
