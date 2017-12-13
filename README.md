@@ -22,40 +22,103 @@ A request is made of the following parts:
 - OPTIONS: A request for information about the communication options available.
 
 ### Format a request
-- **curl**
+<details> <summary> curl </summary>
 
-    ```sh
-    curl -X GET https://requestb.in/1d27kk31
-    ```
-    NOTE: `GET` is the default, so you can omit the `-X GET` and just write `curl URL`.
-- **XMLHttpRequest**
-    ```js
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://example.com/api');
-    xhr.onload = () => {
-        const response = JSON.parse(xhr.response); 
-        // xhr.response has response which can be parsed into JSON
-        // write logic here for when response comes back
-    };
-    xhr.send();
-    ```
-- **fetch**
-    ```js
-    fetch.get('http://example.com/api')
-        .then(response => response.json()) // parse into JSON
-        .then(response => {
-            // write logic for when response comes back
-        });
-    ```
-    NOTE: `GET` is the default, so you can omit the method and just write `fetch(url)`.
-- **axios**
-    ```js
-    axios.get('http://example.com/api')
-        .then(response => response.json()) // parse into JSON
-        .then(response => {
+NOTE: `GET` is the default, so you can omit the `-X GET` and just write `curl URL`.
+```sh
+curl https://requestb.in/1d27kk31
+curl -X POST -d '{"name":"Ollie","age":3}' https://requestb.in/1d27kk31
+curl -X PUT -d "name=Ollie" https://requestb.in/1d27kk31
+curl -X DELETE -d "id=1" https://requestb.in/1d27kk31
+curl --head -d '{"name":"Ollie","age":3}' https://requestb.in/1d27kk31
+# --head is used instead of -X HEAD
+```
+</details>
+
+
+<details> <summary> XMLHttpRequest </summary>
+
+```js
+// GET
+const xhrGET = new XMLHttpRequest();
+xhrGET.open('GET', 'http://example.com/api', true);
+xhrGET.onload = () => {
+    const response = JSON.parse(xhrGET.response); 
+    // xhr.response has response which can be parsed into JSON
+    // write logic here for when response comes back
+};
+xhrGET.send();
+
+// POST
+const xhrPOST = new XMLHttpRequest();
+xhrPOST.open('POST', 'http://example.com/api', true);
+xhrPOST.onload = () => {
+    const response = JSON.parse(xhrPOST.response); 
+    // write logic here
+};
+xhrPOST.send({name: 'Ollie', age: 3});
+
+// PUT
+const xhrPUT = new XMLHttpRequest();
+xhrPUT.open('PUT', 'http://example.com/api', true);
+xhrPUT.onload = () => {
+    const response = JSON.parse(xhrPUT.response); 
+    // write logic here
+};
+xhrPUT.send("name=Cole");
+
+// DELETE
+const xhrDELETE = new XMLHttpRequest();
+xhrDELETE.open('DELETE', 'http://example.com/api/3', true); // params ID
+xhrDELETE.onload = () => {
+    const response = JSON.parse(xhrDELETE.response); 
+    // write logic here
+};
+xhrDELETE.send(null);
+```
+
+</details>
+
+<details> <summary> fetch </summary>
+    
+NOTE: `GET` is the default, so you can omit the method and just write `fetch(url)`.
+```js
+fetch.get('http://example.com/api')
+    .then(response => response.json()) // parse into JSON
+    .then(response => {
         // write logic for when response comes back
-        });
-    ```
+    });
+```
+</details>
+
+<details> <summary> axios </summary>
+
+```js
+// GET
+axios.get('http://example.com/api')
+    .then(response => {
+        // write logic for when response comes back
+    });
+
+// POST
+axios.post('http://example.com/api', {name: 'Ollie', age: 3})
+    .then(response => {
+        // write logic here
+    });
+
+// PUT
+axios.put('http://example.com/api?name=Cole')
+    .then(response => {
+        // write logic here
+    });
+
+// DELETE
+axios.delete('http://example.com/api/3') // params ID
+    .then(response => {
+        // write logic here
+    });
+```
+</details>
 
 ### <span>requestb.in</span>
 [requestb.in](https://requestb.in/) acts as back end, so you can practice making requests to see what headers were sent by your request.
@@ -68,7 +131,12 @@ A request is made of the following parts:
 --- 
 
 ## Responses
-
+A response is made of the following parts:
+- Head
+    - Start-line (version, status code, status text) (e.g., `HTTP/1.1 404 Not Found`)
+    - Headers (case-insensitive string followed by a value)
+- Body (optional)
+    - Data 
 
 ### Headers
 Below are some common HTTP headers. For more on these and other headers, see [the docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers).
@@ -180,4 +248,5 @@ app.use((req, res, next) => {
 
 See response headers
 `Network` > `XHR` > `Headers` > [`Response`/`Request`] `Headers` > `Name`
+
 
