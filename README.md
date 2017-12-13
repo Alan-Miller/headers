@@ -41,7 +41,7 @@ curl -X DELETE -d "id=1" https://requestb.in/1d27kk31
 
 # HEAD
 curl --head -d '{"name":"Ollie","age":3}' https://requestb.in/1d27kk31
-    # --head is used instead of -X HEAD
+    # -I or --head are used instead of -X HEAD
 ```
 </details>
 
