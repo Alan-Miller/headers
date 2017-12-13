@@ -1,11 +1,7 @@
-# CORS (Cross Origin Resources Sharing)
+# Request/Response Headers and CORS
 Resources are shared on the web when clients make requests to a server and the server responds. Both requests and responses send headers, which carry information about the browser, the requested page, the server, etc. The request headers give details about the request being made, and response headers give details about the response coming back. Response headers can be written to specify the type and format of requests that are allowed.
 
 An origin is a tuple (ordered set) of 3 things: (1) protocol/scheme, (2) host, and (3) port. In `https://www.example.com:80`, for example `https` is the protocol, `www.example.com` is the host, and `80` is the port. Together, they are the origin. When any one of these parts differs between the client and the server, like `http://localhost:3000` and `http://localhost:3001`, the two are said to have different origins.
-
-By default, there are restrictions about what can be shared through requests and responses across different origins on the web. This is where CORS comes in. CORS provides loosened headers that allow resources to be shared from one origin to another.
-
-NOTE ABOUT PROXIES: A proxy can act as an alternative to using CORS. For example, if you are not able to edit the server to include CORS, a proxy can return the `Access-Control-Allow-Origin` header. Instead of making requests to a remote server, you'll make requests to your proxy, which will forward the requests to the server.
 
 ---
 
@@ -110,26 +106,18 @@ app.use((req, res, next) => {
 });
 ```
 
-curl
+NOTE: `*` is dangerous as a value for `Access-Control-Allow-Origin` if the server has sensitive information. If the `withCredentials` property is set to `include`, the browser console will likely deny access and give an error saying the `Access-Control-Allow-Origin` response header may not be a * if credentials are set to `include`.
 
-CORS loosens up headers to allow across origins. It allows the Same Origin Policy to be relaxed for a domain. Like example.org and example.com.
+---
 
-\* is dangerous if the server has sensitive information. If the `withCredentials` property is set to `include`, the browser console will likely deny access and give an error saying the `Access-Control-Allow-Origin` response header may not be a * if credentials are set to `include`.
+## CORS
+By default, there are restrictions about what can be shared through requests and responses across different origins on the web. This is where CORS comes in. CORS provides loosened headers that allow resources to be shared from one origin to another. It allows the `Same Origin Policy` to be relaxed for a domain, like example.com and example.org.
 
+NOTE ABOUT PROXIES: A proxy can act as an alternative to using CORS. For example, if you are not able to edit the server to include CORS, a proxy can return the `Access-Control-Allow-Origin` header. Instead of making requests to a remote server, you'll make requests to your proxy, which will forward the requests to the server.
 
+### Cookies
 
-
-
-
-
-## Chrome Network tab
-
-See response headers
-Network > XHR > Headers > [Response/Request] Headers > Name
-
-
-
-By default same-origin requests DO send cookies. 
+By default, same-origin requests DO send cookies. 
 Try logging in with a proxy. A proxy makes treats both back end and front end like the same origin, so a cookie is sent and user information is received.
 
 By default, cross-origin requests do NOT send cookies. CORS requests by default do not send or set cookies.
@@ -186,4 +174,10 @@ app.use((req, res, next) => {
 });
 ```
 
+---
+
+## Chrome Network tab
+
+See response headers
+`Network` > `XHR` > `Headers` > [`Response`/`Request`] `Headers` > `Name`
 
