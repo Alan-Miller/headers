@@ -54,7 +54,7 @@ A request is made of the following parts:
         });
     ```
 
-## [requestb.in](requestb.in)
+## [requestb.in](https://requestb.in/)
 
 Acts as back end.
 
