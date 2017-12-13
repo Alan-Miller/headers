@@ -25,13 +25,21 @@ A request is made of the following parts:
 <details> <summary> curl </summary>
 
 NOTE: `GET` is the default, so you can omit the `-X GET` and just write `curl URL`.
+
 ```sh
+# GET
 curl https://requestb.in/1d27kk31
+
+# POST
 curl -X POST -d '{"name":"Ollie","age":3}' https://requestb.in/1d27kk31
+
+# PUT
 curl -X PUT -d "name=Ollie" https://requestb.in/1d27kk31
+
+# DELETE
 curl -X DELETE -d "id=1" https://requestb.in/1d27kk31
 curl --head -d '{"name":"Ollie","age":3}' https://requestb.in/1d27kk31
-# --head is used instead of -X HEAD
+    # --head is used instead of -X HEAD
 ```
 </details>
 
