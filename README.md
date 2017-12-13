@@ -1,7 +1,7 @@
 # Request/Response Headers and CORS
-Resources are shared on the web when clients make requests to a server and the server responds. Both requests and responses send headers, which carry information about the browser, the requested page, the server, etc. The request headers give details about the request being made, and response headers give details about the response coming back. Response headers can be written to specify the type and format of requests that are allowed.
+Resources are shared on the web when clients make requests to a server and the server responds. Requests and responses both send headers, which carry information about things like the browser, the requested page, and the server. The request headers give details about the request being made, and response headers give details about the response coming back. Response headers can be written to specify the type and format of requests that are allowed.
 
-An origin is a tuple (ordered set) of 3 things: (1) protocol/scheme, (2) host, and (3) port. In `https://www.example.com:80`, for example `https` is the protocol, `www.example.com` is the host, and `80` is the port. Together, they are the origin. When any one of these parts differs between the client and the server, like `http://localhost:3000` and `http://localhost:3001`, the two are said to have different origins.
+An origin is a tuple (ordered set) of 3 things: (1) protocol/scheme, (2) host, and (3) port. In `https://www.example.com:80`, for example, `https` is the protocol, `www.example.com` is the host, and `80` is the port. Together, they are the origin. When any one of these parts differs between the client and the server, like `http://localhost:3000` and `http://localhost:3001`, the two are said to have different origins.
 
 ---
 
