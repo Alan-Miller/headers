@@ -38,6 +38,8 @@ curl -X PUT -d "name=Ollie" https://requestb.in/1d27kk31
 
 # DELETE
 curl -X DELETE -d "id=1" https://requestb.in/1d27kk31
+
+# HEAD
 curl --head -d '{"name":"Ollie","age":3}' https://requestb.in/1d27kk31
     # --head is used instead of -X HEAD
 ```
