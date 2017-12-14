@@ -212,7 +212,7 @@ As an example of why this is important, imagine what might happen if your bank's
 
 As an aside, the name for one type of attack that results in a website running foreign code is "cross-site scripting" (XSS). The type of attack in which someone else initiates requests from your browser as if they were you is called "cross-site request forgery" (CSRF).
 
-If you intend to authenticate (i.e. send cookies) to another origin, not only will you need the appropriate server-side CORS policy, you'll also need to enable the `Access-Control-Allow-Credentials` header in your client-side requests. With axios this can be done using the option `withCredentials: true` on the request object. Alternatively, you can set axios options globally to apply to all axios requests.
+If you intend to authenticate (i.e., send cookies) to another origin, not only will you need the appropriate server-side CORS policy, you'll also need to enable the `Access-Control-Allow-Credentials` header in your client-side requests. With axios this can be done using the option `withCredentials: true` on the request object. Alternatively, you can set axios options globally to apply to all axios requests.
 
 ```js
 // front end HTTP request
