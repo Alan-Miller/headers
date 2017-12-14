@@ -1,5 +1,5 @@
 # Request/Response Headers and CORS
-Resources are shared on the web when clients make requests to a server and the server responds. Requests and responses both send headers, which carry information about things like the browser, the requested page, and the server. The request headers give details about the request being made, and response headers give details about the response coming back. The client can send request headers to specify the type or format of content that is desired, e.g. JSON instead of HTML, or Spanish instead of English. Similarly, servers can send response headers to indicate which types of requests are allowed.
+Resources are shared on the web when clients make requests to a server and the server responds. Requests and responses both send headers, which carry information about things like the browser, the requested page, and the server. The request headers give details about the request being made, and response headers give details about the response coming back. The client can send request headers to specify the type or format of content that is desired (e.g., JSON instead of HTML) or Spanish instead of English. Similarly, servers can send response headers to indicate which types of requests are allowed.
 
 An origin is a tuple (ordered set) of 3 things: (1) protocol/scheme, (2) host, and (3) port. In `https://www.example.com:80`, for example, `https` is the protocol, `www.example.com` is the host, and `80` is the port. Together, they are the origin. When any one of these parts differs between the client and the server, like `http://localhost:3000` and `http://localhost:3001`, the two are said to have different origins.
 
@@ -18,7 +18,7 @@ A request is made of the following parts:
 - POST: Request to add new content. Typically includes a message body in the request.
 - PUT: Request to edit content.
 - DELETE: Request to delete content.
-- HEAD: Request for the Head portion of a page. Basically a `GET` request without any response message body.
+- HEAD: Request for the Head portion of a page. This is basically a `GET` request without any response message body.
 - OPTIONS: A request for information about the communication options available.
 
 ### Format a request
@@ -206,9 +206,9 @@ If your front-end code authenticates to your own server, even if the server prox
 By default, cross-origin requests do NOT send or set cookies.
 Try authenticating to a different server than the one from which your JavaScript code was served. For example, you might serve JavaScript from port 3000 and authenticate to a service running on port 3001. Because the front end is on a different port than the back end, the two are not of the same origin. Without a proxy, or without the appropriate CORS policy, no cookies will be sent. You may see a 404 (Not Found) error in the console.
 
-Interestingly, if you open an authenticated URL in a new browser tab, it may show you as authenticated, even though the cross-origin XHR request failed. This is because requests initiated by the user, e.g. opening a new tab and entering a URL, and requests initiated by a script, e.g. an XHR request from inside JavaScript, have different security policies. By default, user-initiated requests send cookies, while script-originated requests to other origins do not send cookies.
+Interestingly, if you open an authenticated URL in a new browser tab, it may show you as authenticated, even though the cross-origin XHR request failed. This is because requests initiated by the user, (e.g., opening a new tab and entering a URL) and requests initiated by a script (e.g., an XHR request from inside JavaScript) have different security policies. By default, user-initiated requests send cookies, while script-originated requests to other origins do not send cookies.
 
-As an example of why this is important, imagine what might happen if your bank's CORS policy was too lax, e.g. they use `'Access-Control-Allow-Origin': *` and `Access-Control-Allow-Credentials: true` on their website. One day you login to your bank to check your balance. A website in another tab of your browser has been hacked and is running malicious code. Without your knowledge, this malicious code makes a POST request to your bank, e.g. `axios.post('https://www.yourbank.com/transfer?amount=5000&to=attacker@example.com')`. Because the request came from your browser, the bank believes it's you and honors the transfer request.
+As an example of why this is important, imagine what might happen if your bank's CORS policy was too lax, e.g. they use `'Access-Control-Allow-Origin': *` and `Access-Control-Allow-Credentials: true` on their website. One day you login to your bank to check your balance. A website in another tab of your browser has been hacked and is running malicious code. Without your knowledge, this malicious code makes a POST request to your bank, e.g., `axios.post('https://www.yourbank.com/transfer?amount=5000&to=attacker@example.com')`. Because the request came from your browser, the bank believes it's you and honors the transfer request.
 
 As an aside, the name for one type of attack that results in a website running foreign code is "cross-site scripting" (XSS). The type of attack in which someone else initiates requests from your browser as if they were you is called "cross-site request forgery" (CSRF).
 
