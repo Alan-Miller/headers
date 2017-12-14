@@ -26,7 +26,7 @@ A request is made of the following parts:
 
 - `GET` is the default, so you can omit the `-X GET` and just write `curl URL`.
 - The `-d` option introduces data (the message body).
-- The default Content-Type when sending data is "application/x-www-form-urlencoded". This is the format used when submitting (traditional) web forms.
+- The default Content-Type when sending data (`-d`) is "application/x-www-form-urlencoded". This is the format used when submitting web forms, like a contact page on a website.
 - To send JSON data, use the -H (header) flag to change the Content-Type to "application/json"
 
 ```sh
@@ -196,7 +196,7 @@ By default, there are restrictions about what can be shared through requests and
 
 CORS adds new headers that let servers describe which origins are allowed to access that information. For request methods other than a simple `GET`, `HEAD`, or `POST`, CORS requires browsers to "preflight" the request by asking for supported methods from the server with an `OPTIONS` request method and then, if approved by the server, sending the main request with the request method. Servers can also notify clients whether credentials (like cookies) should be sent, too.
 
-NOTE ABOUT PROXIES: A proxy can act as an alternative to using CORS. For example, if you would like to make client-side requests to a server which you do not control and whose CORS policy does not allow such client-side requests, you can make a requests to your own server, which will already share a matching origin or whose CORS policy you do control, and it in turn can make server-side requests to the other server.
+NOTE ABOUT PROXIES: A proxy can act as an alternative to using CORS. For example, if you would like to make client-side requests to a server which you do not control and whose CORS policy does not allow such client-side requests, you can make requests to your own server, which will already share a matching origin or whose CORS policy you do control, and your server in turn can make server-side requests to the other server.
 
 ### Cookies
 
@@ -204,13 +204,13 @@ By default, same-origin requests DO send cookies.
 If your front-end code authenticates to your own server, even if the server proxies the request to another server, the same origin policy means that any authentication cookies will be sent and user information will be received.
 
 By default, cross-origin requests do NOT send or set cookies.
-Try authenticating to a different server than the one from which your JavaScript code was served. For example, you might server JavaScript from port 3000 and authenticate to a service running on port 3001. Because the front end is on a different port than the back end, the two are not the same origin. Without a proxy treating them like the same, and without the appropriate CORS policy, no cookie is sent. You may see a 404 (Not Found) error in the console.
+Try authenticating to a different server than the one from which your JavaScript code was served. For example, you might serve JavaScript from port 3000 and authenticate to a service running on port 3001. Because the front end is on a different port than the back end, the two are not of the same origin. Without a proxy, or without the appropriate CORS policy, no cookies will be sent. You may see a 404 (Not Found) error in the console.
 
-Interestingly, if you open the same authentication URL in a new tab, it may show you as authenticated, even though the cross-origin XHR request failed. This is because requests initiated by the user, e.g. opening a new tab and entering a URL, and requests initiated by a script, e.g. an XHR request from inside JavaScript, have different security policies. By default, user-initiated requests send cookies, while cross-origin script requests do not send cookies.
+Interestingly, if you open an authenticated URL in a new browser tab, it may show you as authenticated, even though the cross-origin XHR request failed. This is because requests initiated by the user, e.g. opening a new tab and entering a URL, and requests initiated by a script, e.g. an XHR request from inside JavaScript, have different security policies. By default, user-initiated requests send cookies, while script-originated requests to other origins do not send cookies.
 
 As an example of why this is important, imagine what might happen if your bank's CORS policy was too lax, e.g. they use `'Access-Control-Allow-Origin': *` and `Access-Control-Allow-Credentials: true` on their website. One day you login to your bank to check your balance. A website in another tab of your browser has been hacked and is running malicious code. Without your knowledge, this malicious code makes a POST request to your bank, e.g. `axios.post('https://www.yourbank.com/transfer?amount=5000&to=attacker@example.com')`. Because the request came from your browser, the bank believes it's you and honors the transfer request.
 
-As an aside, one type of attack that might allow a website to be running foreign code is called "cross-site scripting" (XSS). The type of attack in which someone else initiates requests from your browser as if they were you is called "cross-site request forgery" (CSRF).
+As an aside, the name for one type of attack that results in a website running foreign code is "cross-site scripting" (XSS). The type of attack in which someone else initiates requests from your browser as if they were you is called "cross-site request forgery" (CSRF).
 
 If you intend to authenticate (i.e. send cookies) to another origin, not only will you need the appropriate server-side CORS policy, you'll also need to enable the `Access-Control-Allow-Credentials` header in your client-side requests. With axios this can be done using the option `withCredentials: true` on the request object. Alternatively, you can set axios options globally to apply to all axios requests.
 
