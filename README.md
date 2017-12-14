@@ -1,5 +1,5 @@
 # Request/Response Headers and CORS
-Resources are shared on the web when clients make requests to a server and the server responds. Requests and responses both send headers, which carry information about things like the browser, the requested page, and the server. The request headers give details about the request being made, and response headers give details about the response coming back. Response headers can be written to specify the type and format of requests that are allowed.
+Resources are shared on the web when clients make requests to a server and the server responds. Requests and responses both send headers, which carry information about things like the browser, the requested page, and the server. The request headers give details about the request being made, and response headers give details about the response coming back. The client can send request headers to specify the type or format of content that is desired, e.g. JSON instead of HTML, or Spanish instead of English. Similarly, servers can send response headers to indicate which types of requests are allowed.
 
 An origin is a tuple (ordered set) of 3 things: (1) protocol/scheme, (2) host, and (3) port. In `https://www.example.com:80`, for example, `https` is the protocol, `www.example.com` is the host, and `80` is the port. Together, they are the origin. When any one of these parts differs between the client and the server, like `http://localhost:3000` and `http://localhost:3001`, the two are said to have different origins.
 
@@ -9,16 +9,16 @@ An origin is a tuple (ordered set) of 3 things: (1) protocol/scheme, (2) host, a
 A request is made of the following parts:
 - Head
     - Start-line (method, target URL, and version) (e.g., `POST / HTTP/1.1`)
-    - Headers (case-insensitive string followed by a value)
+    - One or more Headers (each a case-insensitive string followed by a value)
 - Body (optional)
-    - Data 
+    - Data
 
 ### Request methods
 - GET: Request to retrieve content.
 - POST: Request to add new content. Typically includes a message body in the request.
 - PUT: Request to edit content.
 - DELETE: Request to delete content.
-- HEAD: Request for Head. Basically a `GET` request without any response message body.
+- HEAD: Request for the Head portion of a page. Basically a `GET` request without any response message body.
 - OPTIONS: A request for information about the communication options available.
 
 ### Format a request
@@ -26,13 +26,15 @@ A request is made of the following parts:
 
 - `GET` is the default, so you can omit the `-X GET` and just write `curl URL`.
 - The `-d` option introduces data (the message body).
+- The default Content-Type when sending data is "application/x-www-form-urlencoded". This is the format used when submitting (traditional) web forms.
+- To send JSON data, use the -H (header) flag to change the Content-Type to "application/json"
 
 ```sh
 # GET
 curl https://requestb.in/1d27kk31
 
 # POST
-curl -X POST -d '{"name":"Ollie","age":3}' https://requestb.in/1d27kk31
+curl -X POST -d '{"name":"Ollie","age":3}' -H "Content-Type: application/json" https://requestb.in/1d27kk31
 
 # PUT
 curl -X PUT -d "name=Ollie" https://requestb.in/1d27kk31
@@ -41,7 +43,7 @@ curl -X PUT -d "name=Ollie" https://requestb.in/1d27kk31
 curl -X DELETE -d "id=1" https://requestb.in/1d27kk31
 
 # HEAD
-curl --head -d '{"name":"Ollie","age":3}' https://requestb.in/1d27kk31
+curl --head -d '{"name":"Ollie","age":3}' -H "Content-Type: application/json" https://requestb.in/1d27kk31
     # -I or --head are used instead of -X HEAD
 ```
 </details>
@@ -54,7 +56,7 @@ curl --head -d '{"name":"Ollie","age":3}' https://requestb.in/1d27kk31
 const xhrGET = new XMLHttpRequest();
 xhrGET.open('GET', 'http://example.com/api', true);
 xhrGET.onload = () => {
-    const response = JSON.parse(xhrGET.response); 
+    const response = JSON.parse(xhrGET.response);
     // xhr.response has response which can be parsed into JSON
     // write logic here for when response comes back
 };
@@ -64,7 +66,7 @@ xhrGET.send();
 const xhrPOST = new XMLHttpRequest();
 xhrPOST.open('POST', 'http://example.com/api', true);
 xhrPOST.onload = () => {
-    const response = JSON.parse(xhrPOST.response); 
+    const response = JSON.parse(xhrPOST.response);
     // write logic here
 };
 xhrPOST.send({name: 'Ollie', age: 3});
@@ -73,7 +75,7 @@ xhrPOST.send({name: 'Ollie', age: 3});
 const xhrPUT = new XMLHttpRequest();
 xhrPUT.open('PUT', 'http://example.com/api', true);
 xhrPUT.onload = () => {
-    const response = JSON.parse(xhrPUT.response); 
+    const response = JSON.parse(xhrPUT.response);
     // write logic here
 };
 xhrPUT.send("name=Cole");
@@ -82,7 +84,7 @@ xhrPUT.send("name=Cole");
 const xhrDELETE = new XMLHttpRequest();
 xhrDELETE.open('DELETE', 'http://example.com/api/3', true); // params ID
 xhrDELETE.onload = () => {
-    const response = JSON.parse(xhrDELETE.response); 
+    const response = JSON.parse(xhrDELETE.response);
     // write logic here
 };
 xhrDELETE.send(null);
@@ -91,7 +93,7 @@ xhrDELETE.send(null);
 </details>
 
 <details> <summary> fetch </summary>
-    
+
 - `GET` is the default, so you can omit the method and just write `fetch(url)`.
 ```js
 fetch.get('http://example.com/api')
@@ -139,15 +141,15 @@ axios.delete('http://example.com/api/3') // params ID
 1. Copy the URL using the round green button (or by copying it from the URL bar, making sure to omit the `?inspect` query at the end).
 1. The copied URL is the URL to which you will make requests using any of the normal methods for requests. [requestb.in](https://requestb.in/) will track the request data for the last 20 requests, which you can see by refreshing the web site.
 
---- 
+---
 
 ## Responses
 A response is made of the following parts:
 - Head
     - Start-line (version, status code, status text) (e.g., `HTTP/1.1 404 Not Found`)
-    - Headers (case-insensitive string followed by a value)
+    - One or more Headers (each a case-insensitive string followed by a value)
 - Body (optional)
-    - Data 
+    - Data
 
 ### Headers
 Below are some common HTTP headers. For more on these and other headers, see [the docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers).
@@ -157,7 +159,7 @@ Below are some common HTTP headers. For more on these and other headers, see [th
 - **Access-Control-Allow-Headers**: Used in preflight requests. Indicates which headers will be available through `Access-Control-Expose-Headers`.
 - **Access-Control-Expose-Headers**: Indicates which headers can be exposed as part of the response.
 - **Access-Control-Allow-Methods**: HTTP methods allowed. 'GET' and 'POST' requests can skip `Access-Control-Allow-Methods` and are not prevented.
-- **Content-Security-Policy**: Scripts in the HTML body, will be ignored except those coming from origins specified by Content-Security-Policy.
+- **Content-Security-Policy**: Scripts in the HTML body will be ignored except those coming from origins specified by Content-Security-Policy.
     - `default-src`: fallback for fetch directives
     - `'self'`: scripts from own origin
     - `unsafe-eval`
@@ -185,7 +187,7 @@ app.use((req, res, next) => {
 });
 ```
 
-NOTE: `*` is dangerous as a value for `Access-Control-Allow-Origin` if the server has sensitive information. If the `withCredentials` property is set to `include`, the browser console will likely deny access and give an error saying the `Access-Control-Allow-Origin` response header may not be a * if credentials are set to `include`.
+NOTE: `*` is dangerous as a value for `Access-Control-Allow-Origin` if the server has sensitive information. If the `withCredentials` property is set to `include`, the browser will likely deny access and give an error saying the `Access-Control-Allow-Origin` response header may not be a * if credentials are set to `include`.
 
 ---
 
@@ -194,17 +196,23 @@ By default, there are restrictions about what can be shared through requests and
 
 CORS adds new headers that let servers describe which origins are allowed to access that information. For request methods other than a simple `GET`, `HEAD`, or `POST`, CORS requires browsers to "preflight" the request by asking for supported methods from the server with an `OPTIONS` request method and then, if approved by the server, sending the main request with the request method. Servers can also notify clients whether credentials (like cookies) should be sent, too.
 
-NOTE ABOUT PROXIES: A proxy can act as an alternative to using CORS. For example, if you are not able to edit the server to include CORS, a proxy can return the `Access-Control-Allow-Origin` header. Instead of making requests to a remote server, you'll make requests to your proxy, which will forward the requests to the server.
+NOTE ABOUT PROXIES: A proxy can act as an alternative to using CORS. For example, if you would like to make client-side requests to a server which you do not control and whose CORS policy does not allow such client-side requests, you can make a requests to your own server, which will already share a matching origin or whose CORS policy you do control, and it in turn can make server-side requests to the other server.
 
 ### Cookies
 
-By default, same-origin requests DO send cookies. 
-Try logging in with a proxy. A proxy makes treats both back end and front end like the same origin, so a cookie is sent and user information is received.
+By default, same-origin requests DO send cookies.
+If your front-end code authenticates to your own server, even if the server proxies the request to another server, the same origin policy means that any authentication cookies will be sent and user information will be received.
 
-By default, cross-origin requests do NOT send cookies. CORS requests by default do not send or set cookies.
-Try logging in without a proxy. Because the front end is on a different port than the back end, the two are not the same origin. Without a proxy treating them like the same, no cookie is sent. You may see a 404 (Not Found) error in the console. And yet if you click the URL in the console, you may see your data in the browser. That is because the browser is not the same origin. [RICHARD]
+By default, cross-origin requests do NOT send or set cookies.
+Try authenticating to a different server than the one from which your JavaScript code was served. For example, you might server JavaScript from port 3000 and authenticate to a service running on port 3001. Because the front end is on a different port than the back end, the two are not the same origin. Without a proxy treating them like the same, and without the appropriate CORS policy, no cookie is sent. You may see a 404 (Not Found) error in the console.
 
-But we can put withCredentials header in the HTTP request. axios lets us do this in a request object. Alternatively, you can set axios defaults globally to apply to all axios requests.
+Interestingly, if you open the same authentication URL in a new tab, it may show you as authenticated, even though the cross-origin XHR request failed. This is because requests initiated by the user, e.g. opening a new tab and entering a URL, and requests initiated by a script, e.g. an XHR request from inside JavaScript, have different security policies. By default, user-initiated requests send cookies, while cross-origin script requests do not send cookies.
+
+As an example of why this is important, imagine what might happen if your bank's CORS policy was too lax, e.g. they use `'Access-Control-Allow-Origin': *` and `Access-Control-Allow-Credentials: true` on their website. One day you login to your bank to check your balance. A website in another tab of your browser has been hacked and is running malicious code. Without your knowledge, this malicious code makes a POST request to your bank, e.g. `axios.post('https://www.yourbank.com/transfer?amount=5000&to=attacker@example.com')`. Because the request came from your browser, the bank believes it's you and honors the transfer request.
+
+As an aside, one type of attack that might allow a website to be running foreign code is called "cross-site scripting" (XSS). The type of attack in which someone else initiates requests from your browser as if they were you is called "cross-site request forgery" (CSRF).
+
+If you intend to authenticate (i.e. send cookies) to another origin, not only will you need the appropriate server-side CORS policy, you'll also need to enable the `Access-Control-Allow-Credentials` header in your client-side requests. With axios this can be done using the option `withCredentials: true` on the request object. Alternatively, you can set axios options globally to apply to all axios requests.
 
 ```js
 // front end HTTP request
@@ -226,7 +234,7 @@ axios({
 });
 ```
 
-Then in the server, we add a configuration object to the CORS instance, specifying the front end origin and setting the `credentials` property to `true`.
+On the server, we add a configuration object to the CORS instance, specifying the front end origin and setting the `credentials` property to `true`.
 
 ```js
 // server file CORS middleware
@@ -240,7 +248,7 @@ app.use(cors({
 }));
 ```
 
-Instead of importing `cors`, we could just write our own middleware with our own headers. Below are the `origin` and `credentials` headers we can use to get the same result as the `cors` options above. Below are also some other headers (commented out) that we might consider, and there are still others.
+Instead of importing `cors`, we could just write our own headers. Below are the `origin` and `credentials` headers we can use to get the same result as the `cors` options above. Below are also some other headers (commented out) that we might consider, and there are still others.
 
 ```js
 app.use((req, res, next) => {
