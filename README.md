@@ -192,7 +192,7 @@ NOTE: `*` is dangerous as a value for `Access-Control-Allow-Origin` if the serve
 ## CORS
 By default, there are restrictions about what can be shared through requests and responses across different origins on the web. This is where CORS comes in. CORS provides loosened headers that allow resources to be shared from one origin to another. It allows the `Same Origin Policy` to be relaxed for a domain, like example.com and example.org.
 
-CORS adds new headers that let servers describe which origins are allowed to access that information. For request methods other than a simple `GET` or `POST`, CORS requires browsers to "preflight" the request by asking for supported methods from the server with an `OPTIONS` request method and then, if approved by the server, sending the main request with the request method. Servers can also notify clients whether credentials (like cookies) should be sent, too.
+CORS adds new headers that let servers describe which origins are allowed to access that information. For request methods other than a simple `GET`, `HEAD`, or `POST`, CORS requires browsers to "preflight" the request by asking for supported methods from the server with an `OPTIONS` request method and then, if approved by the server, sending the main request with the request method. Servers can also notify clients whether credentials (like cookies) should be sent, too.
 
 NOTE ABOUT PROXIES: A proxy can act as an alternative to using CORS. For example, if you are not able to edit the server to include CORS, a proxy can return the `Access-Control-Allow-Origin` header. Instead of making requests to a remote server, you'll make requests to your proxy, which will forward the requests to the server.
 
