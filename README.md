@@ -153,7 +153,7 @@ A response is made of the following parts:
 
 ### Headers
 Below are some common HTTP headers. For more on these and other headers, see [the docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers).
-- **Access-Control-Allow-Origin**: Whether the response can be shared with resources with a given origin.
+- **Access-Control-Allow-Origin**: Whitelist for allowed origins.
     - `*`: all origins
     - `'http://example.com:3000'`: specific origin
 - **Access-Control-Allow-Headers**: Used in preflight requests. Indicates which headers will be available through `Access-Control-Expose-Headers`.
@@ -194,9 +194,17 @@ NOTE: `*` is dangerous as a value for `Access-Control-Allow-Origin` if the serve
 ## CORS
 By default, there are restrictions about what can be shared through requests and responses across different origins on the web. This is where CORS comes in. CORS provides loosened headers that allow resources to be shared from one origin to another. It allows the `Same Origin Policy` to be relaxed for a domain, like example.com and example.org.
 
-CORS adds new headers that let servers describe which origins are allowed to access that information. For request methods other than a simple `GET`, `HEAD`, or `POST`, CORS requires browsers to "preflight" the request by asking for supported methods from the server with an `OPTIONS` request method and then, if approved by the server, sending the main request with the request method. Servers can also notify clients whether credentials (like cookies) should be sent, too.
+### Preflighting
+For request methods other than `GET`, `HEAD`, or (certain) `POST` methods, CORS requires browsers to "preflight" the request by asking for supported methods from the server with an `OPTIONS` request method and then, if approved by the server, sending the main request with the request method. Whether the `POST` requests require preflighting will depend on the MIME type. If the `Content-Type` is set to "application/x-www-form-urlencoded" or "plain/text", for example, no preflighting is required. But if the `Content-Type` is "application/json, preflighting is required. This is because browsers never allowed cross-origin "application/json" `POST` requests prior to CORS, but they did allow the other two content types, and it is not the intent of CORS to add new restrictions that did exist prior to CORS.
 
-NOTE ABOUT PROXIES: A proxy can act as an alternative to using CORS. For example, if you would like to make client-side requests to a server which you do not control and whose CORS policy does not allow such client-side requests, you can make requests to your own server, which will already share a matching origin or whose CORS policy you do control, and your server in turn can make server-side requests to the other server.
+Servers can also notify clients whether credentials (like cookies) should be sent, too.
+
+###### Possible issues
+- If you have set headers inside your individual endpoints (as opposed to setting headers in some app-wide middleware), you may find that the `GET` requests hit their endpoints but the others don't. `POST` requests sending "application/json" content will not work, either. This is because these types of request methods require preflighting, so the endpoints will not be hit if the requests do not pass the preflight check. Try setting the headers in middleware instead. This way, the requests can pass the preflight check and then go on to hit their endpoints.
+- If `Access-Control-Allow-Headers` is not set or does not include the value `Content-Type`, you may find that `POST` requests give an error. This is because `Access-Control-Allow-Headers` responds to preflight requests and indicates which headers will be available in the actual request. So if you `POST` is attempt to send JSON content but the preflight response does not indicate that `Content-Type` is available, the actual request will not go through.
+
+### Proxies
+A proxy can act as an alternative to using CORS. For example, if you would like to make client-side requests to a server which you do not control and whose CORS policy does not allow such client-side requests, you can make requests to your own server, which will already share a matching origin or whose CORS policy you do control, and your server in turn can make server-side requests to the other server.
 
 ### Cookies
 
