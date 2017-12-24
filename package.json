@@ -22,5 +22,5 @@
     "eject": "react-scripts eject"
   },
   "main": "server/server.js",
-  "proxy": "http://localhost:3101"
+  "proxy": "http://localhost:3005"
 }

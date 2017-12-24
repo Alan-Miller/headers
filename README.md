@@ -276,6 +276,6 @@ app.use((req, res, next) => {
 ## Chrome Network tab
 
 See response headers
-`Network` > `XHR` > `Headers` > [`Response`/`Request`] `Headers` > `Name`
+`Network` > `XHR` > `Name` > `Headers` > [`Response`/`Request`] `Headers` > `Name`
 
 
